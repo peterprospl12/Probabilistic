@@ -11,28 +11,27 @@ class LinearGenerator:
 
     def __generate__(self):
         x = (self.a * self.summ + self.c) % self.m
-        self.summ += x
+        self.summ = x
         return x / self.m
 
 
-linear_generator = LinearGenerator(16.807, 0, 2 ^ 31 - 1)
+linear_generator = LinearGenerator(16807, 0, 2 ** 31 - 1)
 
 counterf = 0
 temp = []
 for i in range(1000):
     x = linear_generator.__generate__()
     temp.append(x)
-    if x >= 0.1 and x <= 0.25:
-        counterf +=1
+    if 0.1 <= x <= 0.25:
+        counterf += 1
 
 print(temp)
 print("Sprawdzenie liniowego: ", counterf / 1000)
 
-
-
 r = 1
 R = 1
 pointCounter = 0
+circleCounter = 0
 for i in range(100000):
     x, y = linear_generator.__generate__(), linear_generator.__generate__()
     x *= 2
@@ -42,17 +41,20 @@ for i in range(100000):
 
     dist1 = sqrt((x - 0.0) ** 2 + (y - 0.0) ** 2)
     dist2 = sqrt((x - 1.0) ** 2 + (y - 1.0) ** 2)
+    if dist1 < 1.0:
+        circleCounter += 1
     if dist1 < 1.0 and dist2 < R:
         pointCounter += 1
 
 print("Eksperyment", pointCounter / 25000)
+print("PI", circleCounter / 25000)
 
 
 class RegisterGenerator:
     def __init__(self, p, q):
         self.p = p
         self.q = q
-        self.current_i = p + 1;
+        self.current_i = p + 1
         self.queue = deque([])
         linear_generator1 = LinearGenerator(16.807, 0, 2 ^ 31 - 1)
 
@@ -83,8 +85,6 @@ for i in range(1000):
 print(temp)
 print("Sprawdzenie rejestrowego: ", counterf / 1000)
 
-
-
 counter = 0
 N = 20
 K = 5
@@ -101,6 +101,5 @@ for i in range(100000):
         if counterx >= K:
             counter += 1
             break
-
 
 print("Eksperyment", counter / 100000)

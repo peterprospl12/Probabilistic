@@ -56,7 +56,7 @@ class RegisterGenerator:
         self.q = q
         self.current_i = p + 1
         self.queue = deque([])
-        linear_generator1 = LinearGenerator(16.807, 0, 2 ^ 31 - 1)
+        linear_generator1 = LinearGenerator(16807, 0, 2 ^ 31 - 1)
 
         for i in range(self.current_i + 1):
             x = linear_generator1.__generate__()
